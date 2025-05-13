@@ -8,7 +8,7 @@
     "dev": "nodemon index"
   },
   "keywords": [],
-  "author": "Noah Solmon",
+  "author": "Noah Solomon",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
