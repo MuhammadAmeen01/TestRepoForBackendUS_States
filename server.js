@@ -22,11 +22,6 @@ app.use(express.static('public'));
 app.use('/', require('./routes/root'));
 app.use('/states', require('./routes/states'));
 
-// Root endpoint - returns index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
 // 404 for unmatched routes
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
