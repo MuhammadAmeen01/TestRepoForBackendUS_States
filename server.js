@@ -8,6 +8,7 @@ const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
+app.use(express.static('public'));
 const PORT = process.env.PORT || 3500;
 
 connectDB();
