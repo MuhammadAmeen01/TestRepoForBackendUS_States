@@ -9,31 +9,31 @@ const errorHandler = require('./middleware/errorHandler');
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 
-// Connect to DB
-connectDB();
+const PORT = process.env.PORT || 3500;
 
-// Middleware
+connectDB(); // Connect to MongoDB
+
 app.use(cors(corsOptions));
+// app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-// Routes
+// Route handlers
 app.use('/', require('./routes/root'));
 app.use('/states', require('./routes/states'));
 
-// Root endpoint returns HTML
+// Root endpoint - returns index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// 404 fallback - Moved to the end!
+// 404 for unmatched routes
 app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-// DB ready = start server
-
-const PORT = process.env.PORT || 3500;
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
+// ✅ START SERVER only when DB is connected
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+});
