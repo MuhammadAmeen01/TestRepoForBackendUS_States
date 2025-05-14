@@ -19,8 +19,8 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Route handlers
-app.use('/', require('./routes/root'));
-app.use('/states', require('./routes/states'));
+// app.use('/', require('./routes/root'));
+// app.use('/states', require('./routes/states'));
 
 // 404 for unmatched routes
 app.use((req, res) => {
