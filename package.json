@@ -4,8 +4,8 @@
   "description": "Final Project INF653",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon index"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "Noah Solomon",
