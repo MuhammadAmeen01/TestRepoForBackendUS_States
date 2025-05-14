@@ -12,6 +12,11 @@ app.use(express.static('public'));
 const PORT = process.env.PORT || 3500;
 
 connectDB();
+
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+  });
+  
 app.use(cors(corsOptions));
 //app.use(cors());
 app.use(express.json());
