@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    'https://www.yoursite.com',
+    'https://airy-treasure-position.glitch.me',
     'http://127.0.0.1:5500',
     'http://localhost:3500'
 ];
