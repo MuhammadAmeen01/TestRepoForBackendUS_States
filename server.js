@@ -25,9 +25,13 @@ console.log('Registering /states route...');
 app.use('/states', require('./routes/states'));
 
 // 404 for unmatched routes
-app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-});
+app.all('*', (req, res) => {
+    if (req.method === 'GET') {
+      res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+    } else {
+      res.status(404).json({ message: '404 Not Found' });
+    }
+  });
 
 // ✅ START SERVER only when DB is connected
 mongoose.connection.once('open', () => {
