@@ -21,17 +21,13 @@ app.use(express.static('public'));
 // Route handlers
 console.log('Registering / route...');
 app.use('/', require('./routes/root'));
-console.log('Registering /states route...');
+
 app.use('/states', require('./routes/states'));
 
 // 404 for unmatched routes
-app.all('*', (req, res) => {
-    if (req.method === 'GET') {
-      res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-    } else {
-      res.status(404).json({ message: '404 Not Found' });
-    }
-  });
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+});
 
 // ✅ START SERVER only when DB is connected
 mongoose.connection.once('open', () => {
