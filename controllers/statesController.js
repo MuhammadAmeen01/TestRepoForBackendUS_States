@@ -1,5 +1,6 @@
-const State = require('../models/State');
 const statesData = require('../models/statesData.json');
+const State = require('../models/State');
+
 
 //State abv
 const validStates = [
