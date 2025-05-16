@@ -27,10 +27,10 @@ app.use((req, res, next) => {
 
 // ✅ Use only one of these:
 // If you want to allow *any* origin (for testing/public use):
-// app.use(cors());
+app.use(cors());
 
 // If you want to use your whitelist (production-ready):
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 // Built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
