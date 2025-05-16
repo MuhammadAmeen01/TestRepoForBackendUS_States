@@ -21,7 +21,7 @@ app.use(logger);
 
 
 // Cross Origin Resource Sharing
-//app.use(cors());
+app.use(cors());
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
