@@ -6,9 +6,7 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
-
 const cookieParser = require('cookie-parser');
-
 const mongoose = require('mongoose');
 const connectDB = require('./config/dbConn');
 const PORT = process.env.PORT || 3500;
@@ -16,44 +14,57 @@ const PORT = process.env.PORT || 3500;
 // Connect to MongoDB
 connectDB();
 
-// custom middleware logger
+// Custom middleware logger
 app.use(logger);
 
+// ✅ Manual fallback CORS middleware — add this just before corsOptions
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // OR restrict to a specific origin if needed
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
+  next();
+});
 
-// Cross Origin Resource Sharing
-app.use(cors());
+// ✅ Use only one of these:
+// If you want to allow *any* origin (for testing/public use):
+// app.use(cors());
+
+// If you want to use your whitelist (production-ready):
 app.use(cors(corsOptions));
 
-// built-in middleware to handle urlencoded form data
+// Built-in middleware to handle urlencoded form data
 app.use(express.urlencoded({ extended: false }));
 
-// built-in middleware for json 
+// Built-in middleware for json
 app.use(express.json());
 
-//middleware for cookies
+// Middleware for cookies
 app.use(cookieParser());
 
-//serve static files
+// Serve static files
 app.use('/', express.static(path.join(__dirname, '/public')));
 
-// routes
+// Routes
 app.use('/states', require('./routes/states'));
 app.use('/users', require('./routes/root'));
 
+// 404 handler
 app.all('*', (req, res) => {
-    res.status(404);
-    if (req.accepts('html')) {
-        res.sendFile(path.join(__dirname, 'views', '404.html'));
-    } else if (req.accepts('json')) {
-        res.json({ "error": "404 Not Found" });
-    } else {
-        res.type('txt').send("404 Not Found");
-    }
+  res.status(404);
+  if (req.accepts('html')) {
+    res.sendFile(path.join(__dirname, 'views', '404.html'));
+  } else if (req.accepts('json')) {
+    res.json({ "error": "404 Not Found" });
+  } else {
+    res.type('txt').send("404 Not Found");
+  }
 });
 
+// Custom error handler
 app.use(errorHandler);
 
+// Start server once MongoDB connection is open
 mongoose.connection.once('open', () => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  console.log('Connected to MongoDB');
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
