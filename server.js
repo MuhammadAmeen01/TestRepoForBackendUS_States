@@ -64,11 +64,7 @@ app.all('*', (req, res) => {
 app.use(errorHandler);
 
 // Start server once MongoDB connection is open
-// mongoose.connection.once('open', () => {
-//   console.log('Connected to MongoDB');
-//   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-// });
 mongoose.connection.once('open', () => {
-  console.log('✅ Inside mongoose.connection.once');
+  console.log('Connected to MongoDB');
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
